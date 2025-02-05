@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #eef2f3, #8ec5fc);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #2c3e50;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    .sidebar .btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #3498db;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      border-radius: 6px;
+      margin: 10px 0;
+      transition: background 0.3s ease, transform 0.2s ease;
+      font-weight: bold;
+      display: block;
+    }
+
+    .sidebar .btn:hover {
+      background-color: #2980b9;
+      transform: scale(1.05);
+    }
+
+    .content {
+      flex-grow: 1;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    h3 {
+      font-size: 1.6rem;
+      color: #34495e;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .session-card {
+      background: #ecf0f1;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .session-card button {
+      padding: 8px 12px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+
+    .session-card button:hover {
+      background: #2980b9;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th,
+    td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #3498db;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background: #f8f9fa;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        padding: 15px;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .session-card {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <h2>Player Dashboard</h2>
+    <a href="/logout" class="btn">Logout</a>
+    <a href="/change-password" class="btn">Change Password</a>
+  </div>
+
+  <div class="content">
+    <div class="container">
+      <h3>Your Joined Sessions</h3>
+      <% if (joinedSessions.length > 0) { %>
+      <% joinedSessions.forEach(session => { %>
+      <div class="session-card">
+        <span><%= session.sport_name %> - <%= session.venue %> - <%= session.date_time %></span>
+      </div>
+      <% }) %>
+      <% } else { %>
+      <p>You have not joined any sessions yet.</p>
+      <% } %>
+
+      <h3>Available Sessions</h3>
+      <% if (sessions.length > 0) { %>
+      <% sessions.forEach(session => { %>
+      <div class="session-card">
+        <span><%= session.sport_name %> - <%= session.venue %> - <%= session.date_time %></span>
+        <form action="/sessions/join/<%= session.session_id %>" method="POST">
+          <button type="submit">Join</button>
+        </form>
+      </div>
+      <% }) %>
+      <% } else { %>
+      <p>No upcoming sessions available.</p>
+      <% } %>
+
+      <h3>Upcoming Sessions (Table View)</h3>
+      <% if (sessions.length > 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Sport</th>
+            <th>Venue</th>
+            <th>Date & Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% sessions.forEach(session => { %>
+          <tr>
+            <td><%= session.sport_name %></td>
+            <td><%= session.venue %></td>
+            <td><%= new Date(session.date_time).toLocaleString() %></td>
+            <td>
+              <form action="/sessions/join/<%= session.session_id %>" method="POST">
+                <button type="submit">Join</button>
+              </form>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <% } else { %>
+      <p>No upcoming sessions available.</p>
+      <% } %>
+    </div>
+  </div>
+</body>
+
+</html>

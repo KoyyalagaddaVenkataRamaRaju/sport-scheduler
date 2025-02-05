@@ -4,81 +4,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Register</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #ddc9f3, #9eb7e4);
+      background: linear-gradient(135deg, #a8c0ff, #3f2b96);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
 
     .container {
-      background: rgba(148, 88, 227, 0.95);
-      padding: 40px;
+      background-color: white;
+      padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
       width: 100%;
       max-width: 400px;
       text-align: center;
-      color: white;
     }
 
     h2 {
-      margin-bottom: 25px;
-      font-size: 2rem;
-      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
     }
 
-    input {
+    input,
+    select {
       width: 100%;
       padding: 12px;
-      margin: 10px 0;
-      border: 1px solid rgba(255, 255, 255, 0.5);
+      margin: 12px 0;
       border-radius: 8px;
+      border: 1px solid #ccc;
       font-size: 16px;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
       outline: none;
-      transition: all 0.3s ease;
+      transition: 0.3s;
     }
 
-    input::placeholder {
-      color: rgba(255, 255, 255, 0.7);
+    input:focus,
+    select:focus {
+      border-color: #3f2b96;
+      box-shadow: 0 0 6px rgba(63, 43, 150, 0.2);
     }
 
-    input:focus {
-      border-color: #e0aaff;
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .btn {
+    button {
       width: 100%;
       padding: 12px;
-      background-color: #8e44ad;
+      background-color: #3f2b96;
       color: white;
-      border: none;
       border-radius: 8px;
+      border: none;
       font-size: 16px;
-      font-weight: bold;
       cursor: pointer;
+      font-weight: bold;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    .btn:hover {
-      background-color: #732d91;
+    button:hover {
+      background-color: #2b1f70;
       transform: scale(1.05);
     }
 
-    .btn:active {
+    button:active {
       transform: scale(0.98);
     }
 
@@ -87,13 +76,13 @@
       font-size: 14px;
     }
 
-    a {
-      color: #ffddff;
+    p a {
+      color: #3f2b96;
       text-decoration: none;
       font-weight: bold;
     }
 
-    a:hover {
+    p a:hover {
       text-decoration: underline;
     }
   </style>
@@ -101,14 +90,19 @@
 
 <body>
   <div class="container">
-    <h2>Login</h2>
-    <form action="/login" method="POST">
+    <h2>Create an Account</h2>
+    <form action="/register" method="POST">
+      <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email" required>
       <input type="password" name="password" placeholder="Password" required>
-      <button type="submit" class="btn">Login</button>
+      <select name="role" required>
+        <option value="" disabled selected>Select Role</option>
+        <option value="player">Player</option>
+        <option value="admin">Admin</option>
+      </select>
+      <button type="submit">Register</button>
     </form>
-    <p>Don't have an account? <a href="/register">Register</a></p>
-    <p><a href="/change-password">Forgot Password?</a></p>
+    <p>Already have an account? <a href="/login">Login</a></p>
   </div>
 </body>
 
